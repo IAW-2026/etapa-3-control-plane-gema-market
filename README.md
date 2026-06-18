@@ -77,5 +77,5 @@ El `middleware.ts` valida `sessionClaims.metadata.role`; quien no lo tenga cae e
 
 Vercel. Cargar todas las variables de la tabla en el proyecto y desplegar.
 
-- **App:** _(URL del deploy)_
-- **Operador `superadmin`:** `controlplane+clerk_test@iaw.com` · _(contraseña)_
+- **App:** [_(URL del deploy)_](https://etapa-3-control-plane-gema-market.vercel.app/)
+- **Operador `superadmin`:** `controlplane+clerk_test@iaw.com` · _iawuser#_
