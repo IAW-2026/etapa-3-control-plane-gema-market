@@ -14,7 +14,7 @@ algunos paneles.
 | Componentes UI | `components/ui/{icon,button,card,pill,input,skeleton,tabs,confirm-dialog,pager,empty-state,error-state,toast}.tsx` | ✅ |
 | Shell | `components/shell/{control-chrome,control-nav,page-header,sign-out-button,app-health-card,search-bar,filter-pills}.tsx`, `lib/ui/{branding,nav,format}.ts` | ✅ |
 | Hooks cliente | `lib/hooks/{use-action-feedback,use-debounced-search-param,use-filter-params}.ts` | ✅ |
-| Auth | `proxy.ts` (Clerk, rol `superadmin`), `lib/auth/role.ts`, `app/sign-in/[[...sign-in]]/page.tsx`, `app/unauthorized/page.tsx` | ✅ |
+| Auth | `middleware.ts` (Clerk, rol `superadmin`), `lib/auth/role.ts`, `app/sign-in/[[...sign-in]]/page.tsx`, `app/unauthorized/page.tsx` | ✅ |
 | Integración | `lib/api-key.ts`, `lib/http.ts` (`fetchJson` + `settle`), `lib/env.ts` (`appConfig` + degradación), `lib/clerk.ts` (ban global + listado) | ✅ |
 | Servicios tipados | `lib/services/{seller,buyer,shipping,payments,users,types}.ts` | ✅ |
 | Server Actions | `app/actions/{productos,categorias,usuarios,ordenes,envios}.ts` (con `requireSuperadmin` + `revalidatePath`) | ✅ |
