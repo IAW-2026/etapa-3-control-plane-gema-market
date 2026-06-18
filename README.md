@@ -21,7 +21,7 @@ cada app: los complementa con una vista de mayor nivel.
 App completa, funcionando end-to-end:
 
 - Design system (tokens earth-tone, Inter + JetBrains Mono) consistente con las apps.
-- Auth Clerk con rol `superadmin` (`proxy.ts` + `/unauthorized` + `/sign-in`).
+- Auth Clerk con rol `superadmin` (`middleware.ts` + `/unauthorized` + `/sign-in`).
 - Capa de integración tipada: `lib/{api-key,http,env,clerk}.ts` y
   `lib/services/{seller,buyer,shipping,payments,users}.ts`.
 - Shell admin (SideNav + BottomNav) y **todos los paneles**: Overview, Usuarios,
@@ -70,7 +70,7 @@ La consola solo deja entrar a usuarios con rol `superadmin`. Son dos pasos:
    { "metadata": { "role": "{{user.public_metadata.role}}" } }
    ```
 
-El `proxy.ts` valida `sessionClaims.metadata.role`; quien no lo tenga cae en
+El `middleware.ts` valida `sessionClaims.metadata.role`; quien no lo tenga cae en
 `/unauthorized`.
 
 ## Deploy
