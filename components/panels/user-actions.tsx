@@ -71,17 +71,18 @@ export function UserActions({ user }: { user: ConsolidatedUser }) {
     );
 
   return (
-    <div className="flex flex-wrap gap-2 justify-end">
-      {/* Global (Clerk) */}
-      {user.banned ? (
-        <Button variant="success" size="sm" icon="refresh" onClick={toggleBan} disabled={banFb.isPending}>
-          {banFb.isPending ? "…" : "Reactivar"}
-        </Button>
-      ) : (
-        <Button variant="danger" size="sm" icon="lock" onClick={() => setConfirmBan(true)}>
-          Desactivar
-        </Button>
-      )}
+    <div className="flex flex-wrap lgx:flex-nowrap gap-2 justify-end">
+      {/* Courier (Shipping) */}
+      {user.shipping &&
+        (user.shipping.banned ? (
+          <Button variant="success" size="sm" icon="truck" onClick={toggleDriver} disabled={driverFb.isPending}>
+            {driverFb.isPending ? "…" : "Desbanear courier"}
+          </Button>
+        ) : (
+          <Button variant="secondary" size="sm" icon="truck" onClick={() => setConfirmDriverBan(true)}>
+            Banear courier
+          </Button>
+        ))}
 
       {/* Vendedor (Seller) */}
       {user.seller &&
@@ -95,17 +96,16 @@ export function UserActions({ user }: { user: ConsolidatedUser }) {
           </Button>
         ))}
 
-      {/* Courier (Shipping) */}
-      {user.shipping &&
-        (user.shipping.banned ? (
-          <Button variant="success" size="sm" icon="truck" onClick={toggleDriver} disabled={driverFb.isPending}>
-            {driverFb.isPending ? "…" : "Desbanear courier"}
-          </Button>
-        ) : (
-          <Button variant="secondary" size="sm" icon="truck" onClick={() => setConfirmDriverBan(true)}>
-            Banear courier
-          </Button>
-        ))}
+      {/* Global (Clerk) */}
+      {user.banned ? (
+        <Button variant="success" size="sm" icon="refresh" onClick={toggleBan} disabled={banFb.isPending}>
+          {banFb.isPending ? "…" : "Reactivar"}
+        </Button>
+      ) : (
+        <Button variant="danger" size="sm" icon="lock" onClick={() => setConfirmBan(true)}>
+          Desactivar
+        </Button>
+      )}
 
       <ConfirmDialog
         open={confirmBan}

@@ -28,7 +28,7 @@ async function HealthGrid() {
   ]);
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lgx:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-3 sm:grid-cols-2">
       <AppHealthCard
         name="Seller"
         icon="box"
@@ -97,7 +97,7 @@ async function HealthGrid() {
 
 function HealthGridSkeleton() {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-3 sm:grid-cols-2">
       {Array.from({ length: 4 }).map((_, i) => (
         <Skeleton key={i} rounded="r3" className="h-[260px]" />
       ))}

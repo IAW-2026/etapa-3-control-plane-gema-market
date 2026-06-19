@@ -81,7 +81,7 @@ async function UsersTable({ searchParams }: { searchParams: SearchParams }) {
                 <th className="py-2.5 px-3 w-40">Apps</th>
                 <th className="py-2.5 px-3 w-28">Rol</th>
                 <th className="py-2.5 px-3 w-28">Estado</th>
-                <th className="py-2.5 px-5 w-72"></th>
+                <th className="py-2.5 px-5 min-w-72 whitespace-nowrap"></th>
               </tr>
             </thead>
             <tbody>
@@ -146,7 +146,9 @@ async function UsersTable({ searchParams }: { searchParams: SearchParams }) {
 function AppPills({ user }: { user: ConsolidatedUser }) {
   const apps: string[] = [];
   if (user.seller) apps.push("Seller");
+  if (user.buyer) apps.push("Buyer");
   if (user.shipping) apps.push("Shipping");
+  if (user.payments) apps.push("Payments");
   if (apps.length === 0) return <span className="text-ink-3">—</span>;
   return (
     <div className="flex flex-wrap gap-1">

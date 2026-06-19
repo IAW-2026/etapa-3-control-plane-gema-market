@@ -3,6 +3,8 @@ import { listClerkUsers, type ClerkUserLite } from "@/lib/clerk";
 import { settle } from "@/lib/http";
 import { listUsuarios as listSellerUsuarios } from "./seller";
 import { listDrivers } from "./shipping";
+import { listOrdenes as listBuyerOrdenes } from "./buyer";
+import { listOrdenesDePago } from "./payments";
 
 // Usuario consolidado: Clerk (fuente primaria) cruzado con la presencia/estado
 // en cada app. `seller`/`shipping` quedan undefined si el usuario no aparece ahí
@@ -10,6 +12,8 @@ import { listDrivers } from "./shipping";
 export type ConsolidatedUser = ClerkUserLite & {
   seller?: { seller_id: string; suspended: boolean };
   shipping?: { user_id: string; banned: boolean };
+  buyer?: { user_id: string };
+  payments?: { user_id: string };
 };
 
 export type ConsolidatedUsersResult = {
@@ -34,9 +38,11 @@ export async function listConsolidatedUsers(params: {
   });
 
   // Enriquecimiento por app (no bloqueante).
-  const [sellerRes, driverRes] = await Promise.all([
+  const [sellerRes, driverRes, buyerRes, paymentsRes] = await Promise.all([
     settle(listSellerUsuarios({ page_size: 100 })),
     settle(listDrivers({ page_size: 100 })),
+    settle(listBuyerOrdenes({ page_size: 100 })),
+    settle(listOrdenesDePago({ page_size: 100 })),
   ]);
 
   const degraded: string[] = [];
@@ -53,18 +59,45 @@ export async function listConsolidatedUsers(params: {
   }
 
   const driverById = new Map<string, { user_id: string; banned: boolean }>();
+  const driverByEmail = new Map<string, { user_id: string; banned: boolean }>();
   if (driverRes.ok) {
     for (const d of driverRes.data.items) {
-      driverById.set(d.user_id, { user_id: d.user_id, banned: d.banned });
+      const entry = { user_id: d.user_id, banned: d.banned };
+      driverById.set(d.user_id, entry);
+      driverByEmail.set(d.email.toLowerCase(), entry);
     }
   } else {
     degraded.push("Shipping");
   }
 
+  const buyerByClerkId = new Set<string>();
+  const buyerByEmail = new Set<string>();
+  if (buyerRes.ok) {
+    for (const o of buyerRes.data.items) {
+      buyerByClerkId.add(o.buyer_id);
+      // buyer_id might not be clerk id; also try matching by email if available
+      // Note: BuyerOrden doesn't have email, so we only have buyer_id
+    }
+  } else {
+    degraded.push("Buyer");
+  }
+
+  const paymentsByClerkId = new Set<string>();
+  const paymentsByEmail = new Set<string>();
+  if (paymentsRes.ok) {
+    for (const p of paymentsRes.data.items) {
+      paymentsByClerkId.add(p.buyer_id);
+    }
+  } else {
+    degraded.push("Payments");
+  }
+
   const items: ConsolidatedUser[] = clerkPage.items.map((u) => ({
     ...u,
     seller: sellerByClerkId.get(u.id) ?? sellerByEmail.get(u.email.toLowerCase()),
-    shipping: driverById.get(u.id),
+    shipping: driverById.get(u.id) ?? driverByEmail.get(u.email.toLowerCase()),
+    buyer: buyerByClerkId.has(u.id) ? { user_id: u.id } : undefined,
+    payments: paymentsByClerkId.has(u.id) ? { user_id: u.id } : undefined,
   }));
 
   return { items, total: clerkPage.total, degraded };
