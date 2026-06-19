@@ -8,14 +8,22 @@ import { type Paginated, type ShippingStats, toQuery } from "./types";
 // POST de creación). Los endpoints admin (stats, listado de envíos, drivers,
 // reasignar/cancelar/banear) los agrega el plan 02 — hasta entonces degradan.
 
+export type Address = {
+  street: string;
+  number: string;
+  zip: string;
+  city?: string;
+  province?: string;
+};
+
 export type Envio = {
   shipping_id: string;
   order_id: string;
   status: string;
   tracking_code: string;
   tracking_url: string;
-  pickup_address: string;
-  delivery_address: string;
+  pickup_address: Address;
+  delivery_address: Address;
   price: number;
   picked_up_at: string | null;
   delivered_at: string | null;

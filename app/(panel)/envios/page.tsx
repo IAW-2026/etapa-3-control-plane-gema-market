@@ -13,7 +13,7 @@ import { EnvioActions } from "@/components/panels/envio-actions";
 import { DriverBanButton } from "@/components/panels/driver-ban-button";
 import { settle } from "@/lib/http";
 import * as cached from "@/lib/services/cached";
-import { fmtARS } from "@/lib/ui/format";
+import { fmtARS, fmtAddress } from "@/lib/ui/format";
 import { DEFAULT_PAGE_SIZE } from "@/types/domain";
 
 export const metadata: Metadata = { title: "Envíos" };
@@ -97,7 +97,7 @@ async function EnviosTable({ searchParams }: { searchParams: SearchParams }) {
                   <div className="font-mono text-[12px] truncate">{e.tracking_code}</div>
                   <div className="text-[11px] text-ink-3 font-mono">{e.order_id}</div>
                 </td>
-                <td className="py-3.5 px-3 text-ink-2 truncate">{e.delivery_address}</td>
+                <td className="py-3.5 px-3 text-ink-2 truncate">{fmtAddress(e.delivery_address)}</td>
                 <td className="py-3.5 px-3 text-right font-semibold tabular-nums">{fmtARS(e.price)}</td>
                 <td className="py-3.5 px-3"><Pill tone="neutral" size="sm">{e.status}</Pill></td>
                 <td className="py-3.5 px-5"><EnvioActions shippingId={e.shipping_id} status={e.status} /></td>
@@ -120,7 +120,7 @@ async function EnviosTable({ searchParams }: { searchParams: SearchParams }) {
             <div className="flex justify-between gap-2.5 items-start mb-2">
               <div className="min-w-0">
                 <div className="font-mono text-[12px] truncate">{e.tracking_code}</div>
-                <div className="text-[11px] text-ink-3 truncate">{e.delivery_address}</div>
+                <div className="text-[11px] text-ink-3 truncate">{fmtAddress(e.delivery_address)}</div>
               </div>
               <Pill tone="neutral" size="sm">{e.status}</Pill>
             </div>

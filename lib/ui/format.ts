@@ -8,6 +8,16 @@ const MONTHS_ES = [
 ];
 
 // Formatea una fecha ISO (o Date) como "12 jun 2026". Devuelve "—" si es inválida.
+import type { Address } from "@/lib/services/shipping";
+
+// Formatea una dirección postal: "Calle Falsa 123, CP 99999"
+export function fmtAddress(addr: Address): string {
+  let result = `${addr.street } ${addr.number}`;
+  if (addr.city) result += `, ${addr.city}`;
+  result += ` (CP ${addr.zip})`;
+  return result;
+}
+
 export function fmtDate(input: string | Date | null | undefined): string {
   if (!input) return "—";
   const date = input instanceof Date ? input : new Date(input);

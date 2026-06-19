@@ -10,7 +10,7 @@ import { ErrorState } from "@/components/ui/error-state";
 import { CancelOrderButton } from "@/components/panels/cancel-order-button";
 import { settle } from "@/lib/http";
 import * as cached from "@/lib/services/cached";
-import { fmtARS, fmtDate } from "@/lib/ui/format";
+import { fmtARS, fmtDate, fmtAddress } from "@/lib/ui/format";
 
 export const metadata: Metadata = { title: "Detalle de orden" };
 
@@ -132,8 +132,8 @@ async function ShipmentBlock({ params }: { params: Params }) {
           <Row label="Shipping ID" value={res.data.shipping_id} mono />
           <Row label="Estado" value={res.data.status} />
           <Row label="Tracking" value={res.data.tracking_code} mono />
-          <Row label="Origen" value={res.data.pickup_address} />
-          <Row label="Destino" value={res.data.delivery_address} />
+          <Row label="Origen" value={fmtAddress(res.data.pickup_address)} />
+          <Row label="Destino" value={fmtAddress(res.data.delivery_address)} />
           <Row label="Retirado" value={fmtDate(res.data.picked_up_at)} />
           <Row label="Entregado" value={fmtDate(res.data.delivered_at)} />
         </>
