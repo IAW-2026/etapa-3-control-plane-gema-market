@@ -28,12 +28,20 @@ export type PaymentsStats = {
   approval_rate: number;
 };
 
-// Shipping no tiene `/admin/stats` todavía; se deja el tipo previsto para cuando
-// el plan 02 lo agregue.
+// Shipping — GET /api/shipping/admin/stats. La API devuelve un objeto granular en
+// shipments_by_status sin un campo raíz `in_transit`. El overview calcula "envíos
+// activos" desde acá (pending_pickup + picked_up + in_transit).
 export type ShippingStats = {
   total_shipments: number;
-  shipments_by_status: Record<string, number>;
-  in_transit: number;
+  shipments_by_status: {
+    waiting_for_courier: number;
+    pending_pickup: number;
+    picked_up: number;
+    in_transit: number;
+    delivered: number;
+  };
+  average_delivery_hours: number;
+  on_time_rate: number;
 };
 
 // Sobre de paginación común a los listados admin de todas las apps.

@@ -71,7 +71,14 @@ async function HealthGrid() {
         {sh.ok && (
           <>
             <Kpi label="Envíos" value={String(sh.data.total_shipments)} />
-            <Kpi label="En tránsito" value={String(sh.data.in_transit)} />
+            <Kpi
+              label="Activos"
+              value={String(
+                sh.data.shipments_by_status.pending_pickup +
+                  sh.data.shipments_by_status.picked_up +
+                  sh.data.shipments_by_status.in_transit,
+              )}
+            />
           </>
         )}
       </AppHealthCard>
