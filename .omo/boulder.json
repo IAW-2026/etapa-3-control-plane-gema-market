@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "active_work_id": "usuarios-buttons-layout",
+  "works": {
+    "usuarios-buttons-layout": {
+      "work_id": "usuarios-buttons-layout",
+      "active_plan": ".omo/plans/usuarios-buttons-layout.md",
+      "plan_name": "usuarios-buttons-layout",
+      "session_ids": [],
+      "status": "completed",
+      "worktree_path": null
+    }
+  }
+}
