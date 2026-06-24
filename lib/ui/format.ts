@@ -11,7 +11,8 @@ const MONTHS_ES = [
 import type { Address } from "@/lib/services/shipping";
 
 // Formatea una dirección postal: "Calle Falsa 123, CP 99999"
-export function fmtAddress(addr: Address): string {
+export function fmtAddress(addr: Address | null | undefined): string {
+  if (!addr) return "—";
   let result = `${addr.street } ${addr.number}`;
   if (addr.city) result += `, ${addr.city}`;
   result += ` (CP ${addr.zip})`;
