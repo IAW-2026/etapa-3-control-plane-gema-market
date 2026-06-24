@@ -95,6 +95,14 @@
     min-height: 100vh;
   }
 
+  /* Tailwind v4 Preflight resetea margin de <dialog>; lo restauramos para que showModal() centre */
+  dialog {
+    margin: auto;
+  }
+  dialog::backdrop {
+    background: rgba(28, 29, 24, 0.4);
+  }
+
   button:not(:disabled),
   a,
   label[for],
